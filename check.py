@@ -15,7 +15,7 @@ STATUS_FILE = "status.json"
 
 
 def send(msg):
-    requests.post(
+    r = requests.post(
         f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
         data={
             "chat_id": CHAT_ID,
@@ -23,8 +23,9 @@ def send(msg):
         },
         timeout=30
     )
-    print("Telegram:", r.status_code)
-    print(r.text)
+
+    print("STATUS =", r.status_code)
+    print("BODY =", r.text)
 
 def github_headers():
     return {
@@ -124,10 +125,8 @@ with sync_playwright() as p:
 
     print(status)
 
-    if status == "가능":
-        send(
-            "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
-            "https://casper.hyundai.com/ev-guide/eco-incentive"
-        )
+print(status)
 
-    browser.close()
+send("테스트")
+
+browser.close()
