@@ -51,15 +51,20 @@ with sync_playwright() as p:
     ).click()
 
     page.wait_for_timeout(3000)
-    status = ""
+    possible = page.get_by_text("가능").count()
+    closed = page.get_by_text("임시중단/마감").count()
 
-    if page.get_by_text("가능").count() > 0:
-        status = "가능"
+    print(f"possible={possible}")
+    print(f"closed={closed}")
 
-    elif page.get_by_text("임시중단/마감").count() > 0:
-        status = "임시중단/마감"
+    if possible > 0:
+        send(
+            "🚗 칠곡군 전기차 신청이 가능합니다!\n"
+            "https://casper.hyundai.com/ev-guide/eco-incentive"
+        )
 
-    else:
+    context.close()
+    browser.close()
 status = page.locator("span").filter(
     has_text="임시중단/마감"
 ).count()
@@ -77,11 +82,22 @@ if possible > 0:
         "https://casper.hyundai.com/ev-guide/eco-incentive"
     )
 
-    if status == "가능":
-        send(
-            "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
-            "https://casper.hyundai.com/ev-guide/eco-incentive"
-        )
+page.wait_for_timeout(3000)
+
+possible = page.get_by_text("가능").count()
+closed = page.get_by_text("임시중단/마감").count()
+
+print(f"possible={possible}")
+print(f"closed={closed}")
+
+if possible > 0:
+    send(
+        "🚗 칠곡군 전기차 신청이 가능합니다!\n"
+        "https://casper.hyundai.com/ev-guide/eco-incentive"
+    )
+
+context.close()
+browser.close()
 
     context.close()
 
