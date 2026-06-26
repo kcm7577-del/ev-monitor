@@ -45,13 +45,13 @@ with sync_playwright() as p:
 
     page.wait_for_timeout(3000)
 
-status = page.locator("div.subsidy-status-wrap span").inner_text().strip()
+    status = page.locator("div.subsidy-status-wrap span").inner_text().strip()
 
-print(f"status={status}")
+    print(f"status={status}")
 
-if status == "가능":
-    send(
-        "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
+    if status == "가능":
+        send(
+         "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
         "https://casper.hyundai.com/ev-guide/eco-incentive"
     )
 
