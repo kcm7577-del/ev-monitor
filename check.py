@@ -108,25 +108,15 @@ with sync_playwright() as p:
         has_text="칠곡군"
     ).click()
 
-    page.get_by_role(
-        "button",
-        name="조회하기"
-    ).click()
+    page.get_by_role("button", name="조회하기").click()
 
     page.wait_for_timeout(3000)
 
-    status = page.locator(
-        "div.subsidy-status-wrap span"
-    ).inner_text().strip()
-    print(status)
-    status = page.locator(
-        "div.subsidy-status-wrap span"
-    ).inner_text().strip()
 
-    print(status)
+    if status == "가능":
+        send(
+            "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
+            "https://casper.hyundai.com/ev-guide/eco-incentive"
+        )
 
-print(status)
-
-send("테스트")
-
-browser.close()
+    browser.close()
