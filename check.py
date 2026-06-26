@@ -20,10 +20,7 @@ def send(msg):
 
 
 with sync_playwright() as p:
-
-    browser = p.chromium.launch(
-        headless=True
-    )
+    browser = p.chromium.launch(headless=True)
 
     context = browser.new_context()
 
@@ -31,26 +28,23 @@ with sync_playwright() as p:
 
     page.goto(URL)
 
-    page.get_by_role("button", name="닫기").click()
+    page.wait_for_load_state("networkidle")
+
+    try:
+        page.get_by_role("button", name="닫기").click(timeout=3000)
+    except:
+        pass
 
     page.get_by_role("textbox", name="시/도 선택").click()
-
-    page.get_by_role("listitem").filter(
-        has_text="경북"
-    ).click()
+    page.get_by_role("listitem").filter(has_text="경북").click()
 
     page.get_by_role("textbox", name="시/군 선택").click()
+    page.get_by_role("listitem").filter(has_text="칠곡군").click()
 
-    page.get_by_role("listitem").filter(
-        has_text="칠곡군"
-    ).click()
-
-    page.get_by_role(
-        "button",
-        name="조회하기"
-    ).click()
+    page.get_by_role("button", name="조회하기").click()
 
     page.wait_for_timeout(3000)
+
     possible = page.get_by_text("가능").count()
     closed = page.get_by_text("임시중단/마감").count()
 
@@ -59,46 +53,9 @@ with sync_playwright() as p:
 
     if possible > 0:
         send(
-            "🚗 칠곡군 전기차 신청이 가능합니다!\n"
+            "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
             "https://casper.hyundai.com/ev-guide/eco-incentive"
         )
 
     context.close()
     browser.close()
-status = page.locator("span").filter(
-    has_text="임시중단/마감"
-).count()
-
-possible = page.locator("span").filter(
-    has_text="가능"
-).count()
-
-print("possible =", possible)
-print("closed =", status)
-
-if possible > 0:
-    send(
-        "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
-        "https://casper.hyundai.com/ev-guide/eco-incentive"
-    )
-
-page.wait_for_timeout(3000)
-
-possible = page.get_by_text("가능").count()
-closed = page.get_by_text("임시중단/마감").count()
-
-print(f"possible={possible}")
-print(f"closed={closed}")
-
-if possible > 0:
-    send(
-        "🚗 칠곡군 전기차 신청이 가능합니다!\n"
-        "https://casper.hyundai.com/ev-guide/eco-incentive"
-    )
-
-context.close()
-browser.close()
-
-    context.close()
-
-    browser.close()    
