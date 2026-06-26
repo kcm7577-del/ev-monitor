@@ -119,10 +119,19 @@ with sync_playwright() as p:
 
     print(status)
 
-    old = read_status()
+status = page.locator(
+    "div.subsidy-status-wrap span"
+).inner_text().strip()
 
-    if old is None:
-        save_status(status)
+print(status)
+
+if status == "가능":
+    send(
+        "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
+        "https://casper.hyundai.com/ev-guide/eco-incentive"
+    )
+
+browser.close()
         print("처음 실행 - 상태 저장")
     else:
         old_data, sha = old
