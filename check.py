@@ -45,17 +45,15 @@ with sync_playwright() as p:
 
     page.wait_for_timeout(3000)
 
-    possible = page.get_by_text("가능").count()
-    closed = page.get_by_text("임시중단/마감").count()
+status = page.locator("div.subsidy-status-wrap span").inner_text().strip()
 
-    print(f"possible={possible}")
-    print(f"closed={closed}")
+print(f"status={status}")
 
-    if possible > 0:
-        send(
-            "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
-            "https://casper.hyundai.com/ev-guide/eco-incentive"
-        )
+if status == "가능":
+    send(
+        "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
+        "https://casper.hyundai.com/ev-guide/eco-incentive"
+    )
 
     context.close()
     browser.close()
