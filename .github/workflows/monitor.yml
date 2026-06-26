@@ -30,3 +30,4 @@ jobs:
           CHAT_ID: ${{ secrets.CHAT_ID }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python check.py
