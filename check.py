@@ -112,6 +112,11 @@ with sync_playwright() as p:
 
     page.wait_for_timeout(3000)
 
+    status = page.locator(
+        "div.subsidy-status-wrap span"
+    ).inner_text().strip()
+
+    print(status)
 
     if status == "가능":
         send(
