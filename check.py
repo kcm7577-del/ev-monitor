@@ -118,12 +118,12 @@ with sync_playwright() as p:
     ).inner_text().strip()
 
     print(status)
+    status = page.locator(
+        "div.subsidy-status-wrap span"
+    ).inner_text().strip()
 
-status = page.locator(
-    "div.subsidy-status-wrap span"
-).inner_text().strip()
+    print(status)
 
-print(status)
     if status == "가능":
         send(
             "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
