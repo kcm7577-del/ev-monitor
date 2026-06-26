@@ -23,7 +23,8 @@ def send(msg):
         },
         timeout=30
     )
-
+    print("Telegram:", r.status_code)
+    print(r.text)
 
 def github_headers():
     return {
