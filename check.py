@@ -118,7 +118,30 @@ with sync_playwright() as p:
     ).inner_text().strip()
 
     print(status)
-        old = read_status()
+
+old = read_status()
+
+if old is None:
+    save_status(status)
+    print("처음 실행 - 상태 저장")
+else:
+    old_data, sha = old
+    old_status = old_data["status"]
+
+    print(f"이전상태={old_status}")
+    print(f"현재상태={status}")
+
+    if old_status != status:
+
+        if old_status == "임시중단/마감" and status == "가능":
+            send(
+                "🚗 칠곡군 전기차 보조금 신청 가능합니다!\n\n"
+                "https://casper.hyundai.com/ev-guide/eco-incentive"
+            )
+
+        save_status(status, sha)
+
+browser.close()
 
     if old is None:
         save_status(status)
