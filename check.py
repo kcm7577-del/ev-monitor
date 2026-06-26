@@ -116,7 +116,7 @@ with sync_playwright() as p:
 
     status = page.locator(
         "div.subsidy-status-wrap span"
-    ).inner_text().strip(
+    ).inner_text().strip()
     print(status)
     status = page.locator(
         "div.subsidy-status-wrap span"
